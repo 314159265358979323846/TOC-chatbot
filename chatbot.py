@@ -588,5 +588,5 @@ def show_fsm():
 	machine.get_graph().draw("fsm.png",prog="dot",format="png")
 	return static_file("fsm.png",root="./",mimetype="image/png")
 if __name__ == "__main__":
-	show_fsm()
+	#	show_fsm()
 	run(host="0.0.0.0",port=PORT,debug=True)
