@@ -7,6 +7,7 @@ import os
 GRAPH_URL="https://graph.facebook.com/v2.6"
 VERIFY_TOKEN=os.environ["VERIFY_TOKEN"]
 PAGE_TOKEN=os.environ["PAGE_TOKEN"]
+PORT=os.environ["PORT"]
 
 def send_text_message(name,text):
 	url="{0}/me/messages?access_token={1}".format(GRAPH_URL,PAGE_TOKEN)
@@ -588,4 +589,4 @@ def show_fsm():
 	return static_file("fsm.png",root="./",mimetype="image/png")
 if __name__ == "__main__":
 	show_fsm()
-	run(host="localhost",port=5000,debug=True)
+	run(host="0.0.0.0",port=PORT,debug=True)
