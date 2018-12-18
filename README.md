@@ -3,6 +3,7 @@
 <p> 輸入universe進入到state0
 <p> 然後chatbot會印出資訊和進入到下一個state的提示，根據提示去對話即可，若在無提示出現，代表進入到了支線的終點，可隨時輸入universe回到state0
 <p> bonus: creative design(play game with chatbot), sending images
+<img src=https://github.com/314159265358979323846/TOC-chatbot/blob/master/fsm.png>
 <p> 初始state(user) with (universe) -> state0
 <p> state0 with (奇經八脈 || 八卦 || 猜拳) -> (state1 || state2 || state3)
 <p> state1 with (任脈 || 督脈 || 帶脈 || 衝脈 || 陰蹻脈 || 陽蹻脈 || 陰維脈 || 陽維脈) -> (state1 _ 1 ~ state1 _ 8)

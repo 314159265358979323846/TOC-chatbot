@@ -2,10 +2,11 @@ from bottle import route,run,request,abort,static_file
 from transitions.extensions import GraphMachine
 import requests
 import random
+import os
 
 GRAPH_URL="https://graph.facebook.com/v2.6"
-PAGE_TOKEN="EAAbjUnqJI8cBAG77dT5ywqQ3l18XtQww56h0UWHh67ozzHNwkjXHJklKkIYIDk3DdOatSiR7SB3KUZCzNm4K8Lmt3anFAux2pkuH5s85HPbkaNAP1MJtrddjRZA3kCqor9nXS5zCsvXJu2wrEvTpAzBl5RCzaOhH7PGkKNefS6T7HZAXGs9"
-VERIFY_TOKEN="test"
+VERIFY_TOKEN=os.environ["VERIFY_TOKEN"]
+PAGE_TOKEN=os.environ["PAGE_TOKEN"]
 
 def send_text_message(name,text):
 	url="{0}/me/messages?access_token={1}".format(GRAPH_URL,PAGE_TOKEN)
