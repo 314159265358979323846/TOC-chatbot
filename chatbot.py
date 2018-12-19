@@ -196,13 +196,23 @@ class TocMachine(GraphMachine):
 			if text.get("text"):
 				if text["text"].lower()=="猜拳":
 					return True
+				elif text["text"].lower()=="查看規則":
+					return True
+		return False
+	def is_going_to_state3_0(self,event):
+		print("\nis going to state3_0\n")
+		if event.get("message"):
+			text=event["message"]
+			if text.get("text"):
+				if text["text"].lower()=="開始遊戲":
+					return True
 		return False
 	def is_going_to_state3_1(self,event):
 		print("\nis going to state3_1\n")
 		if event.get("message"):
 			text=event["message"]
 			if text.get("text"):
-				if text["text"].lower()=="剪刀":
+				if text["text"].lower()=="現在是 what time":
 					return True
 		return False
 	def is_going_to_state3_2(self,event):
@@ -210,7 +220,7 @@ class TocMachine(GraphMachine):
 		if event.get("message"):
 			text=event["message"]
 			if text.get("text"):
-				if text["text"].lower()=="石頭":
+				if text["text"].lower()=="can not 帶煙來":
 					return True
 		return False
 	def is_going_to_state3_3(self,event):
@@ -218,7 +228,7 @@ class TocMachine(GraphMachine):
 		if event.get("message"):
 			text=event["message"]
 			if text.get("text"):
-				if text["text"].lower()=="布":
+				if text["text"].lower()=="go to 吃雞飯":
 					return True
 		return False
 
@@ -314,18 +324,24 @@ class TocMachine(GraphMachine):
 	def on_enter_state3(self, event):
 		print("\nI'm entering state3\n")
 		sender_id=event['sender']['id']
-		send_text_message(sender_id,"規則:\r\n就是剪刀石頭布\r\n遊戲輸入:剪刀 石頭 布")
+		send_text_message(sender_id,"規則:\r\n就是百分百拳，可參考影片\r\n開始輸入:開始遊戲")
+		send_text_message(sender_id,"https://www.youtube.com/embed/KNRb5UziGYo")
+		send_text_message(sender_id,"https://www.youtube.com/embed/FB9w-RJlI90")
+	def on_enter_state3_0(self, event):
+		print("\nI'm entering state3_0\n")
+		sender_id=event['sender']['id']
+		send_text_message(sender_id,"同學們，上課了~~~來到百分百阿~就要這樣說阿~\r\n遊戲輸入:\r\n現在是 WHAT TIME\r\nCAN NOT 帶煙來\r\nGO TO 吃雞飯\r\n(規則輸入:查看規則)")
 	def on_enter_state3_1(self, event):
 		print("\nI'm entering state3_1\n")
 		sender_id=event['sender']['id']
 		x=random.randint(1,3)
 		print("\nx:%d\n" % x)
 		if x==1:
-			send_text_message(sender_id,"剪刀\r\n平手呦~~~\r\n(可繼續遊戲)")
+			send_text_message(sender_id,"現在是 WHAT TIME\r\n贏了呦~~~\r\n(可繼續遊戲)")
 		elif x==2:
-			send_text_message(sender_id,"石頭\r\n輸了呦~~~\r\n(可繼續遊戲)")
+			send_text_message(sender_id,"CAN NOT 帶煙來\r\n平手呦~~~\r\n(可繼續遊戲)")
 		else:
-			send_text_message(sender_id,"布\r\n贏了呦~~~\r\n(可繼續遊戲)")
+			send_text_message(sender_id,"GO TO 吃雞飯\r\n平手呦~~~\r\n(可繼續遊戲)")
 		self.go_back(event)
 	def on_enter_state3_2(self, event):
 		print("\nI'm entering state3_2\n")
@@ -333,11 +349,11 @@ class TocMachine(GraphMachine):
 		x=random.randint(1,3)
 		print("\nx:%d\n" % x)
 		if x==1:
-			send_text_message(sender_id,"剪刀\r\n贏了呦~~~\r\n(可繼續遊戲)")
+			send_text_message(sender_id,"現在是 WHAT TIME\r\n平手呦~~~\r\n(可繼續遊戲)")
 		elif x==2:
-			send_text_message(sender_id,"石頭\r\n平手呦~~~\r\n(可繼續遊戲)")
+			send_text_message(sender_id,"CAN NOT 帶煙來\r\n贏了呦~~~\r\n(可繼續遊戲)")
 		else:
-			send_text_message(sender_id,"布\r\n輸了呦~~~\r\n(可繼續遊戲)")
+			send_text_message(sender_id,"GO TO 吃雞飯\r\n平手呦~~~\r\n(可繼續遊戲)")
 		self.go_back(event)
 	def on_enter_state3_3(self, event):
 		print("\nI'm entering state3_3\n")
@@ -345,11 +361,11 @@ class TocMachine(GraphMachine):
 		x=random.randint(1,3)
 		print("\nx:%d\n" % x)
 		if x==1:
-			send_text_message(sender_id,"剪刀\r\n輸了呦~~~\r\n(可繼續遊戲)")
+			send_text_message(sender_id,"現在是 WHAT TIME\r\n平手呦~~~\r\n(可繼續遊戲)")
 		elif x==2:
-			send_text_message(sender_id,"石頭\r\n贏了呦~~~\r\n(可繼續遊戲)")
+			send_text_message(sender_id,"CAN NOT 帶煙來\r\n平手呦~~~\r\n(可繼續遊戲)")
 		else:
-			send_text_message(sender_id,"布\r\n平手呦~~~\r\n(可繼續遊戲)")
+			send_text_message(sender_id,"GO TO 吃雞飯\r\n贏了呦~~~\r\n(可繼續遊戲)")
 		self.go_back(event)
 
 machine=TocMachine(
@@ -375,6 +391,7 @@ machine=TocMachine(
 			"state2_7",
 			"state2_8",
 			"state3",
+			"state3_0",
 			"state3_1",
 			"state3_2",
 			"state3_3"
@@ -408,7 +425,8 @@ machine=TocMachine(
 					"state2_6",
 					"state2_7",
 					"state2_8",
-					"state3"
+					"state3",
+					"state3_0"
 					],
 				"dest":"state0",
 				"conditions":"is_going_to_state0"
@@ -523,25 +541,34 @@ machine=TocMachine(
 				},
 			{
 				"trigger":"advance",
-				"source":"state0",
+				"source":[
+					"state0",
+					"state3_0"
+					],
 				"dest":"state3",
 				"conditions":"is_going_to_state3"
 				},
 			{
 				"trigger":"advance",
 				"source":"state3",
+				"dest":"state3_0",
+				"conditions":"is_going_to_state3_0"
+				},
+			{
+				"trigger":"advance",
+				"source":"state3_0",
 				"dest":"state3_1",
 				"conditions":"is_going_to_state3_1"
 				},
 			{
 				"trigger":"advance",
-				"source":"state3",
+				"source":"state3_0",
 				"dest":"state3_2",
 				"conditions":"is_going_to_state3_2"
 				},
 			{
 				"trigger":"advance",
-				"source":"state3",
+				"source":"state3_0",
 				"dest":"state3_3",
 				"conditions":"is_going_to_state3_3"
 				},
@@ -552,7 +579,7 @@ machine=TocMachine(
 					"state3_2",
 					"state3_3"
 					],
-				"dest":"state3",
+				"dest":"state3_0",
 				}
 			],
 		initial="user",
