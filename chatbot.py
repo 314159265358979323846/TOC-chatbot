@@ -1,5 +1,6 @@
 from bottle import route,run,request,abort,static_file
 from transitions.extensions import GraphMachine
+from bs4 import BeautifulSoup
 import requests
 import random
 import os
