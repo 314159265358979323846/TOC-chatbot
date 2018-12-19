@@ -232,10 +232,27 @@ class TocMachine(GraphMachine):
 					return True
 		return False
 
+	def is_going_to_state4(self,event):
+		print("\nis going to state4\n")
+		if event.get("message"):
+			text=event["message"]
+			if text.get("text"):
+				if text["text"].lower()=="爬蟲":
+					return True
+		return False
+	def is_going_to_state4_1(self,event):
+		print("\nis going to state4_1\n")
+		if event.get("message"):
+			text=event["message"]
+			if text.get("text"):
+				if text["text"].lower()=="yahoo新聞":
+					return True
+		return False
+
 	def on_enter_state0(self, event):
 		print("\nI'm entering state0\n")
 		sender_id=event['sender']['id']
-		responese=send_text_message(sender_id,"想了解宇宙的神奇嗎?\r\n輸入:奇經八脈 八卦 猜拳\r\n(輸入:universe 回到這裡)")
+		responese=send_text_message(sender_id,"想了解宇宙的神奇嗎?\r\n輸入:奇經八脈 八卦 猜拳 爬蟲\r\n(輸入:universe 回到這裡)")
 
 	def on_enter_state1(self, event):
 		print("\nI'm entering state1\n")
@@ -368,6 +385,27 @@ class TocMachine(GraphMachine):
 			send_text_message(sender_id,"GO TO 吃雞飯\r\n贏了呦~~~\r\n(可繼續遊戲)")
 		self.go_back(event)
 
+	def on_enter_state4(self, event):
+		print("\nI'm entering state4\n")
+		sender_id=event['sender']['id']
+		send_text_message(sender_id,"輸入資訊:yahoo新聞 google搜尋")
+	def on_enter_state4_1(self, event):
+		print("\nI'm entering state4_1\n")
+		c=0
+		sender_id=event['sender']['id']
+		parse1=requests.get("https://tw.yahoo.com/")
+		if parse1.status_code==requests.codes.ok:
+			soup=BeautifulSoup(parse1.text,"html.parser")
+			stories=soup.find_all("a",class_="story-title")
+			for s in stories:
+				title="標題:"+s.text
+				send_text_message(sender_id,title)
+				url="網址:"+s.get("href")
+				send_text_message(sender_id,url)
+				c+=1
+				if c>=3:
+					break
+
 machine=TocMachine(
 		states=[
 			"user",
@@ -394,7 +432,9 @@ machine=TocMachine(
 			"state3_0",
 			"state3_1",
 			"state3_2",
-			"state3_3"
+			"state3_3",
+			"state4",
+			"state4_1"
 			],
 		transitions=[
 			{
@@ -426,7 +466,9 @@ machine=TocMachine(
 					"state2_7",
 					"state2_8",
 					"state3",
-					"state3_0"
+					"state3_0",
+					"state4",
+					"state4_1"
 					],
 				"dest":"state0",
 				"conditions":"is_going_to_state0"
@@ -580,6 +622,18 @@ machine=TocMachine(
 					"state3_3"
 					],
 				"dest":"state3_0",
+				},
+			{
+				"trigger":"advance",
+				"source":"state0",
+				"dest":"state4",
+				"conditions":"is_going_to_state4"
+				},
+			{
+				"trigger":"advance",
+				"source":"state4",
+				"dest":"state4_1",
+				"conditions":"is_going_to_state4_1"
 				}
 			],
 		initial="user",
