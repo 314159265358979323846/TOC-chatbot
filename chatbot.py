@@ -389,7 +389,7 @@ class TocMachine(GraphMachine):
 	def on_enter_state4(self, event):
 		print("\nI'm entering state4\n")
 		sender_id=event['sender']['id']
-		send_text_message(sender_id,"輸入資訊:yahoo新聞 google搜尋")
+		send_text_message(sender_id,"輸入資訊:yahoo新聞")
 	def on_enter_state4_1(self, event):
 		print("\nI'm entering state4_1\n")
 		c=0
@@ -404,7 +404,7 @@ class TocMachine(GraphMachine):
 				url="網址:"+s.get("href")
 				send_text_message(sender_id,url)
 				c+=1
-				if c>=3:
+				if c>=5:
 					break
 
 machine=TocMachine(
